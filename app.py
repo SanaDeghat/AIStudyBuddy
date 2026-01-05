@@ -1,0 +1,1 @@
+just rnoiuhjh to exist print("Hello, World!") i just want to get anything mroe than 0 so iut thinks i did anytthign plis plis plis plis pkis 
