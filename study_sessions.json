@@ -1,0 +1,42 @@
+[
+  {
+    "subject": "Math",
+    "time_spent": 1,
+    "time_of_day": "Morning",
+    "mood": 1,
+    "effective": true,
+    "timestamp": "2026-01-07 09:59"
+  },
+  {
+    "subject": "Science",
+    "time_spent": 1,
+    "time_of_day": "Morning",
+    "mood": 1,
+    "effective": true,
+    "timestamp": "2026-01-07 10:00"
+  },
+  {
+    "subject": "History",
+    "time_spent": 1,
+    "time_of_day": "Morning",
+    "mood": 1,
+    "effective": true,
+    "timestamp": "2026-01-07 10:00"
+  },
+  {
+    "subject": "Science",
+    "time_spent": 12,
+    "time_of_day": "Night",
+    "mood": 4,
+    "effective": false,
+    "timestamp": "2026-01-07 12:35"
+  },
+  {
+    "subject": "Science",
+    "time_spent": 4,
+    "time_of_day": "Afternoon",
+    "mood": 3,
+    "effective": false,
+    "timestamp": "2026-01-07 12:39"
+  }
+]

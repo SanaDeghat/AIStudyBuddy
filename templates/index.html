@@ -1,46 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Study Logger</title>  
+    <meta charset="UTF-8">
+    <title>Log Study Session</title>
 </head>
 <body>
-    <h1>Write ur study sessions</h1>
-    <form action="/log" method="post">
-        
-        <label>Subject:</label>
-        <select name="subject">
-            <option>Physics</option>
-            <option>Chemistry</option>
-            <option>Mathematics</option>
-            <option>Biology</option>
-            <option>History</option>
-            
-        </select>
-        <br><br>
 
-        <label>Time Spent (hours):</label>
-        <input type="number" name="time_spent" required><br><br>
+<h1>Log Study Session</h1>
 
-        <label>Time of Day:</label>
-        <select name="time_of_day">
+<form action="/submit" method="post">
+
+    <label>Subject:</label>
+    <select name="subject" required>
+        <option value="">-- Select --</option>
+        <option>Math</option>
+        <option>Science</option>
+        <option>History</option>
+        <option>English</option>
+    </select>
+    <br><br>
+
+    <label>Time Spent (minutes):</label>
+    <input type="number" name="time_spent" min="1" required>
+    <br><br>
+
+    <label>Time of Day:</label>
+    <select name="time_of_day" required>
         <option>Morning</option>
         <option>Afternoon</option>
         <option>Evening</option>
         <option>Night</option>
-        </select>
-        <br><br>
+    </select>
+    <br><br>
 
-        <label>Mood / Energy:</label>
-        <input type="text" name="mood"><br><br>
+    <label>Mood / Energy (1–5):</label>
+    <input type="number" name="mood" min="1" max="5" required>
+    <br><br>
 
-        <label>Effective?</label>
-        <select name="effective">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
+    <label>Was it effective?</label>
+    <select name="effective">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+    </select>
     <br><br>
 
     <button type="submit">Save Session</button>
-    </form>
+</form>
+
+<hr>
+<a href="/studySessions">View Study History</a>
 
 </body>
+</html>

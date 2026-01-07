@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study History</title>
+</head>
+<body>
+
+<h1>Study History</h1>
+
+<ul>
+{% for s in sessions %}
+    <li>
+        <strong>{{ s.subject }}</strong> —
+        {{ s.time_spent }} min,
+        {{ s.time_of_day }},
+        Mood: {{ s.mood }},
+        Effective: {{ "Yes" if s.effective else "No" }}
+        <br>
+        <small>{{ s.timestamp }}</small>
+    </li>
+{% endfor %}
+</ul>
+
+<a href="/">← Back</a>
+
+</body>
+</html>
