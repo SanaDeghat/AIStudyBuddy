@@ -23,7 +23,7 @@ def index():
         sessions = load_file()
         new_session = {
             "subject": request.form["subject"],
-            "time_spent": int(request.form["time_spent"]),
+            "time_spent(hours)": int(request.form["time_spent"]),
             "time_of_day": request.form["time_of_day"],
             "mood": request.form["mood"],
             "effective": request.form["effective"] == "yes",

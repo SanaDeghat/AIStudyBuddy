@@ -8,9 +8,17 @@
     <form action="/log" method="post">
         
         <label>Subject:</label>
-        <input type="text" name="subject" required><br><br>
+        <select name="subject">
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Mathematics</option>
+            <option>Biology</option>
+            <option>History</option>
+            
+        </select>
+        <br><br>
 
-        <label>Time Spent (minutes):</label>
+        <label>Time Spent (hours):</label>
         <input type="number" name="time_spent" required><br><br>
 
         <label>Time of Day:</label>
