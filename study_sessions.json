@@ -38,5 +38,45 @@
     "mood": 3,
     "effective": false,
     "timestamp": "2026-01-07 12:39"
+  },
+  {
+    "subject": "Math",
+    "time_spent": 60,
+    "time_of_day": "Afternoon",
+    "mood": 5,
+    "effective": false,
+    "timestamp": "2026-01-07 12:40"
+  },
+  {
+    "subject": "Math",
+    "time_spent": 15,
+    "time_of_day": "Afternoon",
+    "mood": 2,
+    "effective": false,
+    "timestamp": "2026-01-08 10:22"
+  },
+  {
+    "subject": "Science",
+    "time_spent": 12,
+    "time_of_day": "Afternoon",
+    "mood": 5,
+    "effective": true,
+    "timestamp": "2026-01-08 10:24"
+  },
+  {
+    "subject": "History",
+    "time_spent": 155,
+    "time_of_day": "Evening",
+    "mood": 1,
+    "effective": false,
+    "timestamp": "2026-01-08 10:25"
+  },
+  {
+    "subject": "History",
+    "time_spent": 15,
+    "time_of_day": "Evening",
+    "mood": 2,
+    "effective": false,
+    "timestamp": "2026-01-08 10:25"
   }
 ]
