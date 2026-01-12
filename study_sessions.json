@@ -1,52 +1,366 @@
 [
-    { "Subject": "Math", "Duration": 45, "TimeOfDay": "Morning", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Math", "Duration": 30, "TimeOfDay": "Morning", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "Math", "Duration": 60, "TimeOfDay": "Night", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Computer Science", "Duration": 120, "TimeOfDay": "Night", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Computer Science", "Duration": 90, "TimeOfDay": "Night", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "Computer Science", "Duration": 45, "TimeOfDay": "Morning", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "History", "Duration": 30, "TimeOfDay": "Afternoon", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "Literature", "Duration": 60, "TimeOfDay": "Evening", "Mood": "Low", "Effectiveness": "Yes" },
-    { "Subject": "Science", "Duration": 100, "TimeOfDay": "Afternoon", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Math", "Duration": 25, "TimeOfDay": "Morning", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Computer Science", "Duration": 150, "TimeOfDay": "Evening", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "History", "Duration": 15, "TimeOfDay": "Night", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Literature", "Duration": 45, "TimeOfDay": "Morning", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "Science", "Duration": 50, "TimeOfDay": "Morning", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Computer Science", "Duration": 60, "TimeOfDay": "Night", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Math", "Duration": 95, "TimeOfDay": "Night", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Science", "Duration": 30, "TimeOfDay": "Afternoon", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "History", "Duration": 45, "TimeOfDay": "Evening", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Computer Science", "Duration": 40, "TimeOfDay": "Afternoon", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Math", "Duration": 55, "TimeOfDay": "Morning", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "Literature", "Duration": 35, "TimeOfDay": "Night", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Science", "Duration": 110, "TimeOfDay": "Evening", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Math", "Duration": 40, "TimeOfDay": "Night", "Mood": "Medium", "Effectiveness": "No" },
-    { "Subject": "Computer Science", "Duration": 180, "TimeOfDay": "Night", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "History", "Duration": 60, "TimeOfDay": "Afternoon", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Literature", "Duration": 20, "TimeOfDay": "Morning", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Computer Science", "Duration": 50, "TimeOfDay": "Morning", "Mood": "Medium", "Effectiveness": "No" },
-    { "Subject": "Math", "Duration": 75, "TimeOfDay": "Afternoon", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Science", "Duration": 85, "TimeOfDay": "Night", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "History", "Duration": 10, "TimeOfDay": "Morning", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Math", "Duration": 50, "TimeOfDay": "Morning", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Computer Science", "Duration": 100, "TimeOfDay": "Night", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Literature", "Duration": 60, "TimeOfDay": "Afternoon", "Mood": "Low", "Effectiveness": "Yes" },
-    { "Subject": "Science", "Duration": 120, "TimeOfDay": "Morning", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "History", "Duration": 55, "TimeOfDay": "Evening", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "Computer Science", "Duration": 30, "TimeOfDay": "Night", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "Math", "Duration": 80, "TimeOfDay": "Night", "Mood": "High", "Effectiveness": "No" },
-    { "Subject": "Literature", "Duration": 90, "TimeOfDay": "Evening", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Science", "Duration": 45, "TimeOfDay": "Afternoon", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "Computer Science", "Duration": 200, "TimeOfDay": "Morning", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Math", "Duration": 60, "TimeOfDay": "Morning", "Mood": "Medium", "Effectiveness": "Yes" },
-    { "Subject": "History", "Duration": 40, "TimeOfDay": "Night", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Literature", "Duration": 50, "TimeOfDay": "Afternoon", "Mood": "Low", "Effectiveness": "Yes" },
-    { "Subject": "Science", "Duration": 70, "TimeOfDay": "Evening", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Math", "Duration": 110, "TimeOfDay": "Afternoon", "Mood": "Low", "Effectiveness": "No" },
-    { "Subject": "Computer Science", "Duration": 75, "TimeOfDay": "Night", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "History", "Duration": 95, "TimeOfDay": "Morning", "Mood": "Medium", "Effectiveness": "No" },
-    { "Subject": "Literature", "Duration": 30, "TimeOfDay": "Night", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Science", "Duration": 60, "TimeOfDay": "Morning", "Mood": "High", "Effectiveness": "Yes" },
-    { "Subject": "Math", "Duration": 15, "TimeOfDay": "Night", "Mood": "Low", "Effectiveness": "No" }
+    {
+        "Subject": "Math",
+        "Duration": 45,
+        "TimeOfDay": "Morning",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 30,
+        "TimeOfDay": "Morning",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 60,
+        "TimeOfDay": "Night",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 120,
+        "TimeOfDay": "Night",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 90,
+        "TimeOfDay": "Night",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 45,
+        "TimeOfDay": "Morning",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "History",
+        "Duration": 30,
+        "TimeOfDay": "Afternoon",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Literature",
+        "Duration": 60,
+        "TimeOfDay": "Evening",
+        "Mood": "Low",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Science",
+        "Duration": 100,
+        "TimeOfDay": "Afternoon",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 25,
+        "TimeOfDay": "Morning",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 150,
+        "TimeOfDay": "Evening",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "History",
+        "Duration": 15,
+        "TimeOfDay": "Night",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Literature",
+        "Duration": 45,
+        "TimeOfDay": "Morning",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Science",
+        "Duration": 50,
+        "TimeOfDay": "Morning",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 60,
+        "TimeOfDay": "Night",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 95,
+        "TimeOfDay": "Night",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Science",
+        "Duration": 30,
+        "TimeOfDay": "Afternoon",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "History",
+        "Duration": 45,
+        "TimeOfDay": "Evening",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 40,
+        "TimeOfDay": "Afternoon",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 55,
+        "TimeOfDay": "Morning",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Literature",
+        "Duration": 35,
+        "TimeOfDay": "Night",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Science",
+        "Duration": 110,
+        "TimeOfDay": "Evening",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 40,
+        "TimeOfDay": "Night",
+        "Mood": "Medium",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 180,
+        "TimeOfDay": "Night",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "History",
+        "Duration": 60,
+        "TimeOfDay": "Afternoon",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Literature",
+        "Duration": 20,
+        "TimeOfDay": "Morning",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 50,
+        "TimeOfDay": "Morning",
+        "Mood": "Medium",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 75,
+        "TimeOfDay": "Afternoon",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Science",
+        "Duration": 85,
+        "TimeOfDay": "Night",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "History",
+        "Duration": 10,
+        "TimeOfDay": "Morning",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 50,
+        "TimeOfDay": "Morning",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 100,
+        "TimeOfDay": "Night",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Literature",
+        "Duration": 60,
+        "TimeOfDay": "Afternoon",
+        "Mood": "Low",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Science",
+        "Duration": 120,
+        "TimeOfDay": "Morning",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "History",
+        "Duration": 55,
+        "TimeOfDay": "Evening",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 30,
+        "TimeOfDay": "Night",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 80,
+        "TimeOfDay": "Night",
+        "Mood": "High",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Literature",
+        "Duration": 90,
+        "TimeOfDay": "Evening",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Science",
+        "Duration": 45,
+        "TimeOfDay": "Afternoon",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 200,
+        "TimeOfDay": "Morning",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 60,
+        "TimeOfDay": "Morning",
+        "Mood": "Medium",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "History",
+        "Duration": 40,
+        "TimeOfDay": "Night",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Literature",
+        "Duration": 50,
+        "TimeOfDay": "Afternoon",
+        "Mood": "Low",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Science",
+        "Duration": 70,
+        "TimeOfDay": "Evening",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 110,
+        "TimeOfDay": "Afternoon",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 75,
+        "TimeOfDay": "Night",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "History",
+        "Duration": 95,
+        "TimeOfDay": "Morning",
+        "Mood": "Medium",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Literature",
+        "Duration": 30,
+        "TimeOfDay": "Night",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Science",
+        "Duration": 60,
+        "TimeOfDay": "Morning",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 15,
+        "TimeOfDay": "Night",
+        "Mood": "Low",
+        "Effectiveness": "No"
+    },
+    {
+        "Subject": "Math",
+        "Duration": 22,
+        "TimeOfDay": "Morning",
+        "Mood": "High",
+        "Effectiveness": "Yes"
+    },
+    {
+        "Subject": "Computer Science",
+        "Duration": 60,
+        "TimeOfDay": "Night",
+        "Mood": "Medium",
+        "Effectiveness": "No"
+    }
 ]

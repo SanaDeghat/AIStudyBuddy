@@ -7,14 +7,12 @@
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        
-        /* CSS Classes for Effectiveness */
         .effective-yes { color: green; font-weight: bold; }
         .effective-no { color: red; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1>📚 Study History</h1>
+    <h1>Study History</h1>
     <nav>
         <a href="/">Log Session</a> | 
         <a href="/history">History</a> | 
@@ -38,7 +36,6 @@
                 <td>{{ session.Duration }}</td>
                 <td>{{ session.TimeOfDay }}</td>
                 <td>{{ session.Mood }}</td>
-                <!-- Use a class based on the value -->
                 <td class="effective-{{ session.Effectiveness|lower }}">
                     {{ session.Effectiveness }}
                 </td>

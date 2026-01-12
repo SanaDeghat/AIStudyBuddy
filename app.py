@@ -34,25 +34,24 @@ def train_model(sessions):
     if len(sessions) < 5: 
         return None, None, None, None
 
-    df = pd.DataFrame(sessions)
+    df = pd.DataFrame(sessions) #https://www.w3schools.com/python/pandas/pandas_dataframes.asp
     
     df['DurationRange'] = df['Duration'].apply(get_duration_range)
 
     encoders = {}
     for col in ['Subject', 'TimeOfDay', 'Mood', 'DurationRange', 'Effectiveness']:
-        le = LabelEncoder()
+        le = LabelEncoder() #https://www.geeksforgeeks.org/machine-learning/ml-label-encoding-of-datasets-in-python/
         df[col + '_Encoded'] = le.fit_transform(df[col])
         encoders[col] = le
 
     feature_cols = ['Subject_Encoded', 'DurationRange_Encoded', 'TimeOfDay_Encoded', 'Mood_Encoded']
-    X = df[feature_cols]
+    x = df[feature_cols]
     y = df['Effectiveness_Encoded']
 
-    clf = DecisionTreeClassifier(random_state=67)
-    clf.fit(X, y)
+    treeClassifier = DecisionTreeClassifier(random_state=67) #https://kishanmodasiya.medium.com/what-the-heck-is-random-state-24a7a8389f3d
+    treeClassifier.fit(x, y)
 
-    return clf, encoders, feature_cols, df
-
+    return treeClassifier, encoders
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -79,17 +78,17 @@ def history():
 @app.route('/recommendations', methods=['GET', 'POST'])
 def recommendations():
     data = load_data()
-    model, encoders, feature_names_encoded, df = train_model(data)
+    model, encoders= train_model(data)
 
     if not model:
-        return render_template('recommendations.html', error="Not enough data to train model. Log at least 5 sessions.")
+        return render_template('recommendations.html', error="bbg enter more data for me to be able to reccomend you stuff :)")
 
     importances = model.feature_importances_
     feature_names_readable = ['Subject', 'Duration', 'Time of Day', 'Mood'] 
     importance_dict = dict(zip(feature_names_readable, importances))
     sorted_importance = dict(sorted(importance_dict.items(), key=lambda item: item[1], reverse=True))
 
-    tree_text = export_text(model, feature_names=feature_names_readable)
+    tree_text = export_text(model, feature_names=feature_names_readable) #https://scikit-learn.org/stable/modules/generated/sklearn.tree.export_text.html
 
     subjects = encoders['Subject'].classes_
     times = encoders['TimeOfDay'].classes_
@@ -109,14 +108,11 @@ def recommendations():
                     d_enc = encoders['DurationRange'].transform([d])[0]
                     
                     if hasattr(model, "predict_proba"):
-                        probs = model.predict_proba([[s_enc, d_enc, t_enc, m_enc]])
-                        # Find index of 'Yes'
+                        probs = model.predict_proba([[s_enc, d_enc, t_enc, m_enc]]) #https://stackoverflow.com/questions/61184906/difference-between-predict-vs-predict-proba-in-scikit-learn
                         yes_index = list(encoders['Effectiveness'].classes_).index('Yes')
-                        # Check if model has seen enough classes to output probability for Yes
                         if len(probs[0]) > yes_index:
                              prob_success = probs[0][yes_index]
                         else:
-                             # If model only knows 'No', prob of Yes is 0
                              prob_success = 0.0
                     else:
                         prob_success = 0.0
@@ -144,7 +140,7 @@ def recommendations():
             
             max_index = np.argmax(probs)
             prediction_label = encoders['Effectiveness'].classes_[max_index]
-            prediction_prob = probs[max_index-2] 
+            prediction_prob = probs[max_index] 
 
             prediction_result = prediction_label
         except ValueError:
