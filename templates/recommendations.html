@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Recommendations</title>
+    <style> 
+        body { font-family: sans-serif; padding: 2rem; max-width: 800px; margin: auto; }
+        .box { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+        .highlight { color: #2c3e50; font-weight: bold; font-size: 1.1em; }
+        .confidence { color: #555; font-size: 0.9em; font-style: italic; margin-left: 10px; }
+        .high-conf { color: green; font-weight: bold; }
+        .low-conf { color: orange; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🧠 AI Insights</h1>
+    <nav>
+        <a href="/">Log Session</a> | 
+        <a href="/history">History</a> | 
+        <a href="/recommendations">AI Recommendations</a>
+    </nav>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% else %}
+
+        <div class="box">
+            <h2>💡 Smart Recommendation</h2>
+            <p>Based on your unique study patterns, the model suggests this combination for maximum effectiveness:</p>
+            <p>
+                <span class="highlight">{{ best_recommendation }}</span>
+                <br>
+                <span class="confidence">
+                    Confidence Score: {{ "%.0f"|format(best_prob * 100) }}%
+                </span>
+            </p>
+        </div>
+
+        <div class="box">
+            <h2>📊 Feature Importance</h2>
+            <p>What factors matter most to your success?</p>
+            <ul>
+                {% for feature, score in importance.items() %}
+                    <li><b>{{ feature }}:</b> {{ "%.3f"|format(score) }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="box">
+            <h2>🔮 "What If" Predictor</h2>
+            <p>Enter hypothetical conditions to see if they would be effective.</p>
+            <form method="POST">
+                <select name="subject">
+                    <option value="Math">Math</option>
+                    <option value="Science">Science</option>
+                    <option value="History">History</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Literature">Literature</option>
+                </select>
+                <select name="time_of_day">
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                    <option value="Evening">Evening</option>
+                    <option value="Night">Night</option>
+                </select>
+                <select name="mood">
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <input type="number" name="duration" placeholder="Mins" value="45" style="width: 60px;">
+                <button type="submit">Predict</button>
+            </form>
+
+            {% if prediction_result %}
+                <hr>
+                <h3>
+                    Result: 
+                    <span class="{{ 'high-conf' if prediction_result == 'Yes' else 'low-conf' }}">
+                        {{ prediction_result }}
+                    </span>
+                </h3>
+                {% if prediction_prob %}
+                    <p class="confidence">Confidence: {{ "%.0f"|format(prediction_prob * 100) }}%</p>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="box">
+            <h2>🌳 The Decision Tree</h2>
+            <p>This is the actual logic the AI learned from your data:</p>
+            <pre>{{ tree_text }}</pre>
+        </div>
+
+    {% endif %}
+</body>
+</html>

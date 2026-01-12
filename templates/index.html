@@ -1,54 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Log Study Session</title>
+    <title>AI Study Buddy - Log Session</title>
+    <style> body { font-family: sans-serif; padding: 2rem; max-width: 600px; margin: auto; } label { display: block; margin-top: 10px; } </style>
 </head>
 <body>
+    <h1>📝 Log Study Session</h1>
+    <nav>
+        <a href="/">Log Session</a> | 
+        <a href="/history">History</a> | 
+        <a href="/recommendations">AI Recommendations</a>
+    </nav>
 
-<h1>Log Study Session</h1>
+    <form method="POST" action="/">
+        <label>Subject:</label>
+        <select name="subject">
+            <option value="Math">Math</option>
+            <option value="Science">Science</option>
+            <option value="History">History</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Literature">Literature</option>
+        </select>
 
-<form action="/submit" method="post">
+        <label>Time Spent (minutes):</label>
+        <input type="number" name="duration" required min="1">
 
-    <label>Subject:</label>
-    <select name="subject" required>
-        <option value="">-- Select --</option>
-        <option>Math</option>
-        <option>Science</option>
-        <option>History</option>
-        <option>English</option>
-    </select>
-    <br><br>
+        <label>Time of Day:</label>
+        <select name="time_of_day">
+            <option value="Morning">Morning</option>
+            <option value="Afternoon">Afternoon</option>
+            <option value="Evening">Evening</option>
+            <option value="Night">Night</option>
+        </select>
 
-    <label>Time Spent (minutes):</label>
-    <input type="number" name="time_spent" min="1" required>
-    <br><br>
+        <label>Mood / Energy:</label>
+        <select name="mood">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
 
-    <label>Time of Day:</label>
-    <select name="time_of_day" required>
-        <option>Morning</option>
-        <option>Afternoon</option>
-        <option>Evening</option>
-        <option>Night</option>
-    </select>
-    <br><br>
+        <label>Was it Effective?</label>
+        <select name="effectiveness">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
 
-    <label>Mood / Energy (1–5):</label>
-    <input type="number" name="mood" min="1" max="5" required>
-    <br><br>
-
-    <label>Was it effective?</label>
-    <select name="effective">
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-    </select>
-    <br><br>
-
-    <button type="submit">Save Session</button>
-</form>
-
-<hr>
-<a href="/studySessions">View Study History</a>
-
+        <br><br>
+        <button type="submit">Log Session</button>
+    </form>
 </body>
 </html>

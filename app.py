@@ -1,141 +1,162 @@
-from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for
 import json
-import numpy as np
 import os
+import pandas as pd
+import numpy as np
+from flask import Flask, render_template, request, redirect, url_for
 from sklearn.tree import DecisionTreeClassifier, export_text
 from sklearn.preprocessing import LabelEncoder
 
 app = Flask(__name__)
 DATA_FILE = 'study_sessions.json'
 
-# Ensure data file exists
-if not os.path.exists(DATA_FILE):
-    with open(DATA_FILE, 'w') as f:
-        json.dump([], f)
-
-def load_study_sessions():
+def load_data():
+    if not os.path.exists(DATA_FILE):
+        return []
     with open(DATA_FILE, 'r') as f:
-        data = json.load(f)
-        if not isinstance(data, list):
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
             return []
-        return data
 
-def save_study_sessions(sessions):
+def save_data(data):
     with open(DATA_FILE, 'w') as f:
-        json.dump(sessions, f, indent=2)
+        json.dump(data, f, indent=4)
+
+def get_duration_range(minutes):
+    minutes = int(minutes)
+    if minutes <= 30: return "0-30"
+    elif minutes <= 60: return "31-60"
+    elif minutes <= 90: return "61-90"
+    else: return "90+"
 
 def train_model(sessions):
-    if not sessions:
-        return None, None, None
 
-    # Extract features and target
-    subjects = [session['subject'] for session in sessions]
-    time_spent = [session['time_spent'] for session in sessions]
-    time_of_day = [session['time_of_day'] for session in sessions]
-    mood = [session['mood'] for session in sessions]
-    effective = [session['effective'] for session in sessions]
+    if len(sessions) < 5: 
+        return None, None, None, None
 
-    # Encode categorical features
-    le_subjects = LabelEncoder()
-    le_time_of_day = LabelEncoder()
+    df = pd.DataFrame(sessions)
+    
+    df['DurationRange'] = df['Duration'].apply(get_duration_range)
 
-    subjects_encoded = le_subjects.fit_transform(subjects)
-    time_of_day_encoded = le_time_of_day.fit_transform(time_of_day)
+    encoders = {}
+    for col in ['Subject', 'TimeOfDay', 'Mood', 'DurationRange', 'Effectiveness']:
+        le = LabelEncoder()
+        df[col + '_Encoded'] = le.fit_transform(df[col])
+        encoders[col] = le
 
-    # Create feature matrix and output
-    X = np.array([subjects_encoded, time_spent, time_of_day_encoded, mood]).T
-    y = np.array(effective)
+    feature_cols = ['Subject_Encoded', 'DurationRange_Encoded', 'TimeOfDay_Encoded', 'Mood_Encoded']
+    X = df[feature_cols]
+    y = df['Effectiveness_Encoded']
 
-    # Train the classifier
-    model = DecisionTreeClassifier(random_state=42)
-    model.fit(X, y)
-    return model, le_subjects, le_time_of_day
+    clf = DecisionTreeClassifier(random_state=67)
+    clf.fit(X, y)
 
-def get_recommendations(model, le_subjects, le_time_of_day, sessions):
-    if not model or not le_subjects or not le_time_of_day:
-        return "Not enough data to generate recommendations."
+    return clf, encoders, feature_cols, df
 
-    # Extract feature importance
-    feature_importances = model.feature_importances_
-    importance_message = []
-    importance_message.append(f"Time spent on study mattered most with importance {feature_importances[1]:.2f}.")
-    importance_message.append(f"Mood contribution was {feature_importances[3]:.2f}.")
-    importance_message.append("Subject and time of day had moderate importance.")
 
-    all_subjects = le_subjects.classes_
-    all_times_of_day = le_time_of_day.classes_
-
-    recommendation = (
-        f"Based on your study history, you are most effective studying "
-        f"{all_subjects[0]} in the {all_times_of_day[0]} when your mood is high."
-    )
-    return "<br>".join(importance_message + [recommendation])
-
-def predict_effectiveness(model, le_subjects, le_time_of_day, subject, time_spent, time_of_day, mood):
-    # Encode user input
-    subject_encoded = le_subjects.transform([subject])[0]
-    time_of_day_encoded = le_time_of_day.transform([time_of_day])[0]
-
-    input_features = np.array([[subject_encoded, time_spent, time_of_day_encoded, mood]])
-    prediction = model.predict(input_features)[0]
-    return "Effective" if prediction else "Not Effective"
-
-@app.route('/')
-def form():
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        new_entry = {
+            'Subject': request.form['subject'],
+            'Duration': int(request.form['duration']),
+            'TimeOfDay': request.form['time_of_day'],
+            'Mood': request.form['mood'],
+            'Effectiveness': request.form['effectiveness']
+        }
+        data = load_data()
+        data.append(new_entry)
+        save_data(data)
+        return redirect(url_for('history'))
+    
     return render_template('index.html')
 
-@app.route('/submit', methods=['POST'])
-def submit():
-    session = {
-        "subject": request.form['subject'],
-        "time_spent": int(request.form['time_spent']),
-        "time_of_day": request.form['time_of_day'],
-        "mood": int(request.form['mood']),
-        "effective": request.form['effective'] == "yes",
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M")
-    }
+@app.route('/history')
+def history():
+    data = load_data()
+    return render_template('history.html', sessions=data)
 
-    sessions = load_study_sessions()
-    sessions.append(session)
-    save_study_sessions(sessions)
+@app.route('/recommendations', methods=['GET', 'POST'])
+def recommendations():
+    data = load_data()
+    model, encoders, feature_names_encoded, df = train_model(data)
 
-    return redirect(url_for('studySessions'))
+    if not model:
+        return render_template('recommendations.html', error="Not enough data to train model. Log at least 5 sessions.")
 
-@app.route('/studySessions')
-def studySessions():
-    sessions = load_study_sessions()
-    model, le_subjects, le_time_of_day = train_model(sessions)
-    recommendations = get_recommendations(model, le_subjects, le_time_of_day, sessions) if model else "Not enough data."
-    decision_tree_rules = export_text(model) if model else "No decision tree yet."
+    importances = model.feature_importances_
+    feature_names_readable = ['Subject', 'Duration', 'Time of Day', 'Mood'] 
+    importance_dict = dict(zip(feature_names_readable, importances))
+    sorted_importance = dict(sorted(importance_dict.items(), key=lambda item: item[1], reverse=True))
 
-    return render_template(
-        'studySessions.html',
-        sessions=sessions,
-        recommendations=recommendations,
-        decision_tree=f"<pre>{decision_tree_rules}</pre>"
-    )
+    tree_text = export_text(model, feature_names=feature_names_readable)
 
-@app.route('/whatIf', methods=['GET', 'POST'])
-def whatIf():
-    sessions = load_study_sessions()
-    model, le_subjects, le_time_of_day = train_model(sessions)
+    subjects = encoders['Subject'].classes_
+    times = encoders['TimeOfDay'].classes_
+    moods = encoders['Mood'].classes_
+    durations = encoders['DurationRange'].classes_
+    
+    best_combo = None
+    best_prob = -1
+
+    for s in subjects:
+        for t in times:
+            for m in moods:
+                for d in durations:
+                    s_enc = encoders['Subject'].transform([s])[0]
+                    t_enc = encoders['TimeOfDay'].transform([t])[0]
+                    m_enc = encoders['Mood'].transform([m])[0]
+                    d_enc = encoders['DurationRange'].transform([d])[0]
+                    
+                    if hasattr(model, "predict_proba"):
+                        probs = model.predict_proba([[s_enc, d_enc, t_enc, m_enc]])
+                        # Find index of 'Yes'
+                        yes_index = list(encoders['Effectiveness'].classes_).index('Yes')
+                        # Check if model has seen enough classes to output probability for Yes
+                        if len(probs[0]) > yes_index:
+                             prob_success = probs[0][yes_index]
+                        else:
+                             # If model only knows 'No', prob of Yes is 0
+                             prob_success = 0.0
+                    else:
+                        prob_success = 0.0
+
+                    if prob_success > best_prob:
+                        best_prob = prob_success
+                        best_combo = f"Subject: {s}, Time: {t}, Mood: {m}, Duration: {d}"
+
+    prediction_result = None
+    prediction_prob = None
 
     if request.method == 'POST':
-        subject = request.form['subject']
-        time_spent = int(request.form['time_spent'])
-        time_of_day = request.form['time_of_day']
-        mood = int(request.form['mood'])
+        input_sub = request.form['subject']
+        input_time = request.form['time_of_day']
+        input_mood = request.form['mood']
+        input_dur = get_duration_range(request.form.get('duration', 30)) 
 
-        prediction = predict_effectiveness(
-            model, le_subjects, le_time_of_day, subject, time_spent, time_of_day, mood)
-        return render_template('whatIf.html', prediction=prediction)
+        try:
+            s_enc = encoders['Subject'].transform([input_sub])[0]
+            t_enc = encoders['TimeOfDay'].transform([input_time])[0]
+            m_enc = encoders['Mood'].transform([input_mood])[0]
+            d_enc = encoders['DurationRange'].transform([input_dur])[0]
 
-    return render_template('whatIf.html', prediction=None)
+            probs = model.predict_proba([[s_enc, d_enc, t_enc, m_enc]])[0]
+            
+            max_index = np.argmax(probs)
+            prediction_label = encoders['Effectiveness'].classes_[max_index]
+            prediction_prob = probs[max_index-2] 
 
-@app.route('/health')
-def health():
-    return "OK", 200
+            prediction_result = prediction_label
+        except ValueError:
+            prediction_result = "Error: Input value never seen in training data."
+
+    return render_template('recommendations.html', 
+                           importance=sorted_importance,
+                           tree_text=tree_text,
+                           best_recommendation=best_combo,
+                           best_prob=best_prob,
+                           prediction_result=prediction_result,
+                           prediction_prob=prediction_prob)
 
 if __name__ == '__main__':
     app.run(debug=True)
