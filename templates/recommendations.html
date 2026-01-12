@@ -13,7 +13,7 @@
     </style>
 </head>
 <body>
-    <h1>🧠 AI Insights</h1>
+    <h1>Insights</h1>
     <nav>
         <a href="/">Log Session</a> | 
         <a href="/history">History</a> | 
@@ -25,8 +25,8 @@
     {% else %}
 
         <div class="box">
-            <h2>💡 Smart Recommendation</h2>
-            <p>Based on your unique study patterns, the model suggests this combination for maximum effectiveness:</p>
+            <h2>Study Recommendation</h2>
+            <p>best combination for maximum effectiveness:</p>
             <p>
                 <span class="highlight">{{ best_recommendation }}</span>
                 <br>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="box">
-            <h2>📊 Feature Importance</h2>
+            <h2>Feature Importance</h2>
             <p>What factors matter most to your success?</p>
             <ul>
                 {% for feature, score in importance.items() %}
@@ -47,7 +47,7 @@
         </div>
 
         <div class="box">
-            <h2>🔮 "What If" Predictor</h2>
+            <h2>Hypothatical study session checker</h2>
             <p>Enter hypothetical conditions to see if they would be effective.</p>
             <form method="POST">
                 <select name="subject">
@@ -87,8 +87,8 @@
         </div>
 
         <div class="box">
-            <h2>🌳 The Decision Tree</h2>
-            <p>This is the actual logic the AI learned from your data:</p>
+            <h2>The Decision Tree</h2>
+            <p>here is the desision tree:</p>
             <pre>{{ tree_text }}</pre>
         </div>
 
