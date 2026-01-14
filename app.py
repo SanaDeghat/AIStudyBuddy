@@ -2,9 +2,14 @@ import json
 import os
 import pandas as pd
 import numpy as np
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,flash
 from sklearn.tree import DecisionTreeClassifier, export_text
 from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 
 app = Flask(__name__)
 DATA_FILE = 'study_sessions.json'
@@ -74,6 +79,84 @@ def index():
 def history():
     data = load_data()
     return render_template('history.html', sessions=data)
+
+
+@app.route('/test-ai')
+def test_ai():
+    sessions = load_data()
+
+    if len(sessions) < 10:
+        flash("Not enough data to test the model. Please log at least 10 sessions.")
+        return redirect('/log')
+
+    # Convert to DataFrame
+    df = pd.DataFrame(sessions)
+    df['DurationRange'] = df['Duration'].apply(get_duration_range)
+
+    encoders = {}
+    for col in ['Subject', 'TimeOfDay', 'Mood', 'DurationRange', 'Effectiveness']:
+        le = LabelEncoder()
+        df[col + '_Encoded'] = le.fit_transform(df[col])
+        encoders[col] = le
+
+    feature_cols = ['Subject_Encoded', 'DurationRange_Encoded', 'TimeOfDay_Encoded', 'Mood_Encoded']
+    x = df[feature_cols]
+    y = df['Effectiveness_Encoded']
+    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+
+    models = {
+        'Decision Tree': DecisionTreeClassifier(random_state=67),
+        'Random Forest': RandomForestClassifier(random_state=67),
+        'Logistic Regression': LogisticRegression(max_iter=1000, random_state=67),
+        'KNN': KNeighborsClassifier(n_neighbors=5)
+    }
+
+    accuracies = {}
+    for name, clf in models.items():
+        clf.fit(X_train, y_train)
+        predictions = clf.predict(X_test)
+        accuracies[name] = round(accuracy_score(y_test, predictions) * 100, 2)
+
+    return render_template(
+        'test_ai_accuracy.html',
+        accuracies=accuracies,
+        total=len(sessions)
+    )
+    sessions =  load_data()
+
+
+    if len(sessions) < 10:
+        flash("Not enough data to test the model. Please log at least 10 sessions.")
+        return redirect('/log')
+
+    # Convert to DataFrame
+    df = pd.DataFrame(sessions)
+
+    # Encode text columns into numbers
+    # Note: you may have named your features differently
+    data = load_data()
+    model, encoders= train_model(data)
+    df['DurationRange'] = df['Duration'].apply(get_duration_range)
+
+    encoders = {}
+    for col in ['Subject', 'TimeOfDay', 'Mood', 'DurationRange', 'Effectiveness']:
+        le = LabelEncoder() #https://www.geeksforgeeks.org/machine-learning/ml-label-encoding-of-datasets-in-python/
+        df[col + '_Encoded'] = le.fit_transform(df[col])
+        encoders[col] = le
+
+    feature_cols = ['Subject_Encoded', 'DurationRange_Encoded', 'TimeOfDay_Encoded', 'Mood_Encoded']
+    x = df[feature_cols]
+    y = df['Effectiveness_Encoded']
+    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+
+    # Train and test the model
+    model = DecisionTreeClassifier()
+    model.fit(X_train, y_train)
+    predictions = model.predict(X_test)
+    accuracy = round(accuracy_score(y_test, predictions) * 100, 2)
+
+    return render_template('test_ai_accuracy.html', accuracy=accuracy, total=len(sessions))
+
 
 @app.route('/recommendations', methods=['GET', 'POST'])
 def recommendations():

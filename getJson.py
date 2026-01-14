@@ -1,34 +1,58 @@
 import json
-import pandas as pd
-import numpy as np
-from faker import Faker
 import random
 
-# Initialize Faker
-fake = Faker()
+OUTPUT_FILE = "study_sessions.json"
+NUM_ENTRIES = 200 
 
-# Configuration for dataset
-n_records = 10000  # Specify the number of records
-subjects = ['Math', 'Science', 'History', 'Literature', 'Art']
-moods = ['Happy', 'Neutral', 'Sad', 'Stressed', 'Motivated']
-time_of_day = ['Morning', 'Afternoon', 'Evening', 'Night']
+subjects = [
+    "Math", "English", "Biology", "Chemistry",
+    "Physics", "Socials", "Computer Science"
+]
 
-# Generate dataset
+times_of_day = ["Morning", "Afternoon", "Evening", "Night"]
+moods = ["Low", "Medium", "High"]
+
+def random_duration():
+    return random.choice([
+        random.randint(10, 30),
+        random.randint(31, 60),
+        random.randint(61, 90),
+        random.randint(91, 180)
+    ])
+
+def generate_effectiveness(subject, duration, mood, time_of_day):
+    score = 0
+
+    if duration >= 60:
+        score += 1
+    if mood == "High":
+        score += 1
+    if time_of_day in ["Morning", "Afternoon"]:
+        score += 1
+    if subject in ["Math", "Physics"] and duration < 30:
+        score -= 1
+
+    return "Yes" if score >= 2 else "No"
+
+
 data = []
-for _ in range(n_records):
-    record = {
-        'subject': random.choice(subjects),
-        'time_spent': np.random.randint(1, 181),  # Random time spent in minutes
-        'mood': random.choice(moods),
-        'effective': random.choice([True, False]),
-        'time_of_day': random.choice(time_of_day),
-        'timestamp': fake.date_time_this_year().isoformat()  # Random timestamp
-    }
-    data.append(record)
 
-# Save dataset to a JSON file
-with open('large_student_productivity_data.json', 'w') as json_file:
-    json.dump(data, json_file, indent=4)
+for _ in range(NUM_ENTRIES):
+    subject = random.choice(subjects)
+    duration = random_duration()
+    time_of_day = random.choice(times_of_day)
+    mood = random.choice(moods)
+    effectiveness = generate_effectiveness(subject, duration, mood, time_of_day)
 
-# Show an example of the generated data
-print(json.dumps(data[:5], indent=4))
+    data.append({
+        "Subject": subject,
+        "Duration": duration,
+        "TimeOfDay": time_of_day,
+        "Mood": mood,
+        "Effectiveness": effectiveness
+    })
+
+with open(OUTPUT_FILE, "w") as f:
+    json.dump(data, f, indent=4)
+
+print(f"Generated {NUM_ENTRIES} study sessions → {OUTPUT_FILE}")
